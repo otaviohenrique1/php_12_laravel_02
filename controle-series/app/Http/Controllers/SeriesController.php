@@ -38,7 +38,10 @@ class SeriesController extends Controller
         // ]);
         // return view('listar-series', compact('series'));
         // return view('listar-series')->with('series', $series);
-        $series = Serie::query()->orderBy('nome')->get();
+
+        $series = Serie::all();
+
+        // $series = Serie::query()->orderBy('nome')->get();
 
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
 
