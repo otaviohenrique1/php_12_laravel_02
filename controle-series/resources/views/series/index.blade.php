@@ -1,4 +1,4 @@
-<x-layout title="series">
+<x-layout title="Séries">
     <a href="{{ route('series.create') }}" class="btn btn-dark mb-2">Adicionar</a>
     {{-- <a href="/series/criar" class="btn btn-dark mb-2">Adicionar</a> --}}
     @isset($mensagemSucesso)

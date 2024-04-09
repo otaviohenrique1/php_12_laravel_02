@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Serie;
+use App\Models\Series;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
@@ -39,7 +39,7 @@ class SeriesController extends Controller
         // return view('listar-series', compact('series'));
         // return view('listar-series')->with('series', $series);
 
-        $series = Serie::all();
+        $series = Series::all();
 
         // $series = Serie::query()->orderBy('nome')->get();
 
@@ -70,8 +70,17 @@ class SeriesController extends Controller
         // $request->validate([
         //     'nome' => ['required', 'min:3']
         // ]);
-        $serie = Serie::create($request->all());
-
+        $serie = Series::create($request->all());
+        for ($i=0; $i < $request->seasonsQty; $i++) {
+            $season = $serie->season()->create([
+                'number' => $i,
+            ]);
+            for ($j=0; $j < $request->episodesPerSeason; $j++) {
+                $season->episodes()->create([
+                    'number' => $j,
+                ]);
+            }
+        }
         // session()->flash('mensagem.sucesso', "Série {$serie->snome} adicionada com sucesso");
 
         return to_route('series.index')->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
@@ -80,7 +89,7 @@ class SeriesController extends Controller
     }
 
     // public function destroy(Request $request)
-    public function destroy(Serie $series, Request $request)
+    public function destroy(Series $series, Request $request)
     {
         // $serie = Serie::find($request->serie);
         // Serie::destroy($request->serie);
@@ -91,12 +100,12 @@ class SeriesController extends Controller
         return to_route('series.index')->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");
     }
 
-    public function edit(Serie $series, Request $request)
+    public function edit(Series $series, Request $request)
     {
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, SeriesFormRequest $request)
+    public function update(Series $series, SeriesFormRequest $request)
     {
         // $series->nome = $request->nome;
         // $series->save();
