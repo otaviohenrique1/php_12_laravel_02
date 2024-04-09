@@ -10,9 +10,9 @@ class Series extends Model
 {
     use HasFactory;
     protected $fillable = ['nome'];
-    protected $with = ['season'];
+    // protected $with = ['season'];
 
-    public function season()
+    public function seasons()
     {
         return $this->hasMany(Season::class, 'series_id');
     }
